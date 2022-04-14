@@ -6,6 +6,10 @@
     border: solid black 5px;
 }
 
+#board {
+    margin: 10vh;
+}
+
 table tr:nth-child(odd) td:nth-child(even) {
     background: black;
 }
