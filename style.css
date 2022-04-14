@@ -1,11 +1,9 @@
-table {
+.board {
     table-layout: fixed;
-    width: 100%;
-    border-collapse: collapse;
-}
-
-td {
-    height: 12vh;
+    width: 80vh;
+    height: 80vh;
+    margin: auto;
+    border: solid black 5px;
 }
 
 table tr:nth-child(odd) td:nth-child(even) {
