@@ -14,8 +14,3 @@ window.addEventListener('load', () => {
         board.appendChild(row);
     }
 })
-//js by reference vs by value
-let a=1;
-let b=a;
-b=2
-console.log(a);
