@@ -15,6 +15,20 @@ function makeBoard() {
 
         board.appendChild(row);
     }
+
+    return board;
 }
 
-makeBoard()
+function populateBoard(board) {
+    for (const row of board.rows) {
+        for (const cell of row.cells) {
+            let img = document.createElement('img');
+            img.src = "pieces/Chess_plt45.svg"
+            img.className = "piece"
+            cell.appendChild(img)
+        }
+    }
+}
+
+let board = makeBoard();
+populateBoard(board);
