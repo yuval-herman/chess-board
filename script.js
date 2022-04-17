@@ -1,4 +1,7 @@
 const BOARD_SIZE = 8;
+const HIGHLIGHT_COLOR = '#ffd043'
+var prevCell;
+var prevColor;
 
 function makeBoard() {
     let board = document.createElement('table');
@@ -10,7 +13,9 @@ function makeBoard() {
         let row = document.createElement('tr');
 
         for (let j = 0; j < BOARD_SIZE; j++) {
-            row.appendChild(document.createElement('td'));
+            let td = document.createElement('td');
+            td.onclick = (td) => {cellClick(td)};
+            row.appendChild(td);
         }
 
         board.appendChild(row);
@@ -58,5 +63,19 @@ function populateBoard(board) {
     getCell(7,7).appendChild(makePiece('Chess_rlt45'));
 }
 
+function cellClick(event) {
+    let cell = event.target;
+    if (cell.tagName !== 'TD') {
+        cell = cell.parentElement
+    }
+    if (prevCell !== undefined) {
+        prevCell.style.background = prevColor;
+    }
+    prevCell = cell;
+    prevColor = cell.style.background;
+    cell.style.background = HIGHLIGHT_COLOR;
+}
+
 let board = makeBoard();
 populateBoard(board);
+
