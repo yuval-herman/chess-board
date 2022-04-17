@@ -1,5 +1,5 @@
 const BOARD_SIZE = 8;
-const HIGHLIGHT_COLOR = '#ffd043'
+const HIGHLIGHT_COLOR = '#fdff6f'
 var prevCell;
 var prevColor;
 
