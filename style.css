@@ -1,3 +1,8 @@
+:root {
+    --light: #d8d8d8;
+    --dark: #3d3d3d;
+  }
+
 .board {
     table-layout: fixed;
     width: 80vh;
@@ -11,11 +16,19 @@ body {
 }
 
 table tr:nth-child(odd) td:nth-child(even) {
-    background: rgb(61, 61, 61);
+    background: var(--dark);
 }
 
 table tr:nth-child(even) td:nth-child(odd) {
-    background: rgb(61, 61, 61);
+    background: var(--dark);
+}
+
+table tr:nth-child(odd) td:nth-child(odd) {
+    background: var(--light);
+}
+
+table tr:nth-child(even) td:nth-child(even) {
+    background: var(--light);
 }
 
 td {
