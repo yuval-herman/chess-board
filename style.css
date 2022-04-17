@@ -11,11 +11,17 @@ body {
 }
 
 table tr:nth-child(odd) td:nth-child(even) {
-    background: black;
+    background: rgb(61, 61, 61);
 }
 
 table tr:nth-child(even) td:nth-child(odd) {
-    background: black;
+    background: rgb(61, 61, 61);
+}
+
+td {
+    height: 12%;
+    margin: 0;
+    padding: 0;
 }
 
 /* ########################################### */
