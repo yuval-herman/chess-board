@@ -3,7 +3,7 @@ const HIGHLIGHT_COLOR = '#fdff6f'
 var prevCell;
 var prevColor;
 
-function makeBoard() {
+function makeTable() {
     let board = document.createElement('table');
 
     board.className = "board"
@@ -24,43 +24,27 @@ function makeBoard() {
     return board;
 }
 
-function populateBoard(board) {
+function populateTable(table, board) {
     getCell = (x, y) => {
-        return board.rows[x].cells[y];
+        return table.rows[x].cells[y];
     }
 
-    makePiece = (name) => {
+    makePiece = (path) => {
         let img = document.createElement('img');
-        img.src = "pieces/" + name + ".svg";
+        img.src = path;
         img.className = "piece";
         return img;
     }
 
-    getCell(0, 0).appendChild(makePiece('Chess_rdt45'));
-    getCell(0, 1).appendChild(makePiece('Chess_ndt45'));
-    getCell(0, 2).appendChild(makePiece('Chess_bdt45'));
-    getCell(0, 3).appendChild(makePiece('Chess_qdt45'));
-    getCell(0, 4).appendChild(makePiece('Chess_kdt45'));
-    getCell(0, 5).appendChild(makePiece('Chess_bdt45'));
-    getCell(0, 6).appendChild(makePiece('Chess_ndt45'));
-    getCell(0, 7).appendChild(makePiece('Chess_rdt45'));
-
-    for (let i = 0; i < BOARD_SIZE; i++) {
-        getCell(1, i).appendChild(makePiece('Chess_pdt45'));
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board.length; j++) {
+            const element = board[i][j];
+            if (element === undefined) {
+                continue;
+            }
+            getCell(i,j).appendChild(makePiece(element.imgPath));
+        }
     }
-
-    for (let i = 0; i < BOARD_SIZE; i++) {
-        getCell(6, i).appendChild(makePiece('Chess_plt45'));
-    }
-
-    getCell(7, 0).appendChild(makePiece('Chess_rlt45'));
-    getCell(7, 1).appendChild(makePiece('Chess_nlt45'));
-    getCell(7, 2).appendChild(makePiece('Chess_blt45'));
-    getCell(7, 3).appendChild(makePiece('Chess_qlt45'));
-    getCell(7, 4).appendChild(makePiece('Chess_klt45'));
-    getCell(7, 5).appendChild(makePiece('Chess_blt45'));
-    getCell(7, 6).appendChild(makePiece('Chess_nlt45'));
-    getCell(7, 7).appendChild(makePiece('Chess_rlt45'));
 }
 
 function cellClick(event) {
@@ -74,6 +58,59 @@ function cellClick(event) {
 
 }
 
-let board = makeBoard();
-populateBoard(board);
+class chessPiece {
+    constructor(pieceName, type, imgPath) { //type is boolean, dark is false white is true
+        this.pieceName = pieceName;
+        this.type = type;
+        this.imgPath = imgPath;
+    }
+}
 
+class Rook extends chessPiece { }
+class Knight extends chessPiece { }
+class Bishop extends chessPiece { }
+class Queen extends chessPiece { }
+class King extends chessPiece { }
+class Pawn extends chessPiece { }
+
+let table = makeTable();
+
+const board = [
+    [new Rook('rook', false, 'pieces/Chess_rdt45.svg'),
+    new Knight('knight', false, 'pieces/Chess_ndt45.svg'),
+    new Bishop('bishop', false, 'pieces/Chess_bdt45.svg'),
+    new Queen('queen', false, 'pieces/Chess_qdt45.svg'),
+    new King('king', false, 'pieces/Chess_kdt45.svg'),
+    new Bishop('bishop', false, 'pieces/Chess_bdt45.svg'),
+    new Knight('knight', false, 'pieces/Chess_ndt45.svg'),
+    new Rook('rook', false, 'pieces/Chess_rdt45.svg')],
+    [new Pawn('pawn', false, 'pieces/Chess_pdt45.svg'),
+    new Pawn('pawn', false, 'pieces/Chess_pdt45.svg'),
+    new Pawn('pawn', false, 'pieces/Chess_pdt45.svg'),
+    new Pawn('pawn', false, 'pieces/Chess_pdt45.svg'),
+    new Pawn('pawn', false, 'pieces/Chess_pdt45.svg'),
+    new Pawn('pawn', false, 'pieces/Chess_pdt45.svg'),
+    new Pawn('pawn', false, 'pieces/Chess_pdt45.svg'),
+    new Pawn('pawn', false, 'pieces/Chess_pdt45.svg')],
+    [undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined],
+    [undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined],
+    [undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined],
+    [undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined],
+    [new Pawn('pawn', true, 'pieces/Chess_plt45.svg'),
+    new Pawn('pawn', true, 'pieces/Chess_plt45.svg'),
+    new Pawn('pawn', true, 'pieces/Chess_plt45.svg'),
+    new Pawn('pawn', true, 'pieces/Chess_plt45.svg'),
+    new Pawn('pawn', true, 'pieces/Chess_plt45.svg'),
+    new Pawn('pawn', true, 'pieces/Chess_plt45.svg'),
+    new Pawn('pawn', true, 'pieces/Chess_plt45.svg'),
+    new Pawn('pawn', true, 'pieces/Chess_plt45.svg')],
+    [new Rook('rook', true, 'pieces/Chess_rlt45.svg'),
+    new Knight('knight', true, 'pieces/Chess_nlt45.svg'),
+    new Bishop('bishop', true, 'pieces/Chess_blt45.svg'),
+    new Queen('queen', true, 'pieces/Chess_qlt45.svg'),
+    new King('king', true, 'pieces/Chess_klt45.svg'),
+    new Bishop('bishop', true, 'pieces/Chess_blt45.svg'),
+    new Knight('knight', true, 'pieces/Chess_nlt45.svg'),
+    new Rook('rook', true, 'pieces/Chess_rlt45.svg')]];
+
+populateTable(table, board);
