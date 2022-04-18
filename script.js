@@ -14,7 +14,7 @@ function makeBoard() {
 
         for (let j = 0; j < BOARD_SIZE; j++) {
             let td = document.createElement('td');
-            td.onclick = (td) => { cellClick(td) };
+            td.onclick = cellClick;
             row.appendChild(td);
         }
 
