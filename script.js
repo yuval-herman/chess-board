@@ -64,10 +64,7 @@ function populateBoard(board) {
 }
 
 function cellClick(event) {
-    let cell = event.target;
-    if (cell.tagName !== 'TD') {
-        cell = cell.parentElement
-    }
+    let cell = event.currentTarget;
     if (prevCell !== undefined) {
         prevCell.style.background = prevColor;
     }
