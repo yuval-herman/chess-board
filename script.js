@@ -132,14 +132,16 @@ class Knight extends chessPiece {
         possMov.push([pos[0] + 1, pos[1] - 2]);
         possMov.push([pos[0] - 1, pos[1] - 2]);
         for (let i = 0; i < possMov.length; i++) {
-            if(isOutOfBounds(possMov[i])) {
+            if (isOutOfBounds(possMov[i])) {
                 delete possMov[i];
             }
         }
         return possMov;
     }
 }
-class Bishop extends chessPiece { }
+class Bishop extends chessPiece {
+
+}
 class Queen extends chessPiece { }
 class King extends chessPiece { }
 class Pawn extends chessPiece { }
