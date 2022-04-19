@@ -197,7 +197,22 @@ class King extends chessPiece {
 }
 
 class Pawn extends chessPiece {
-
+    //pawn is simple. there is one caveat, however,
+    //in contrast to every other piece in the game, the pawn can only move foreward. still, easy.
+    validMoves(pos) {
+        let possMov = [];
+        if (this.type) {
+            possMov.push([pos[0] - 1, pos[1]]);
+        } else {
+            possMov.push([pos[0] + 1, pos[1]]);
+        }
+        for (let i = 0; i < possMov.length; i++) {
+            if (isOutOfBounds(possMov[i]) || arrIsEqual(pos, possMov[i])) {
+                delete possMov[i];
+            }
+        }
+        return possMov;
+    }
 }
 
 const board = [
