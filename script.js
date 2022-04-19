@@ -25,6 +25,17 @@ function makeTable() {
     return table;
 }
 
+function getCell(x, y) {
+    return table.rows[x].cells[y];
+}
+
+function makePiece(path) {
+    let img = document.createElement('img');
+    img.src = path;
+    img.className = "piece";
+    return img;
+}
+
 function populateTable() {
     for (let i = 0; i < board.length; i++) {
         for (let j = 0; j < board[i].length; j++) {
