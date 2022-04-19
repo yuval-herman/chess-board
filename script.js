@@ -118,7 +118,27 @@ class Rook extends chessPiece {
         return possMov;
     }
 }
-class Knight extends chessPiece { }
+class Knight extends chessPiece {
+    //the knight can move two spaces in one axis and another in the other axis
+    //knight always have a max of 8 moves, this can be hard coded
+    validMoves(pos) {
+        let possMov = [];
+        possMov.push([pos[0] + 2, pos[1] + 1]);
+        possMov.push([pos[0] - 2, pos[1] + 1]);
+        possMov.push([pos[0] + 2, pos[1] - 1]);
+        possMov.push([pos[0] - 2, pos[1] - 1]);
+        possMov.push([pos[0] + 1, pos[1] + 2]);
+        possMov.push([pos[0] - 1, pos[1] + 2]);
+        possMov.push([pos[0] + 1, pos[1] - 2]);
+        possMov.push([pos[0] - 1, pos[1] - 2]);
+        for (let i = 0; i < possMov.length; i++) {
+            if(isOutOfBounds(possMov[i])) {
+                delete possMov[i];
+            }
+        }
+        return possMov;
+    }
+}
 class Bishop extends chessPiece { }
 class Queen extends chessPiece { }
 class King extends chessPiece { }
