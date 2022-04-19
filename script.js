@@ -140,8 +140,7 @@ class Knight extends chessPiece {
     }
 }
 class Bishop extends chessPiece {
-    //the bishops movement is similar to the rook but rotated 45 degress.
-    //this can be utilized.
+    //the bishop's movement is similar to the rook but rotated 45 degress.
     validMoves(pos) {
         let possMov = [];
         for (let i = 0; i < board.length; i++) {
@@ -159,7 +158,25 @@ class Bishop extends chessPiece {
     }
 }
 class Queen extends chessPiece {
-
+    //the Queen's movement is a combination of the rook and the bishop
+    //this can be utilized.
+    validMoves(pos) {
+        let possMov = [];
+        for (let i = 0; i < board.length; i++) {
+            possMov.push([pos[0] + i, pos[1] + i]);
+            possMov.push([pos[0] - i, pos[1] - i]);
+            possMov.push([pos[0] - i, pos[1] + i]);
+            possMov.push([pos[0] + i, pos[1] - i]);
+            possMov.push([pos[0], i]);
+            possMov.push([i, pos[1]]);
+        }
+        for (let i = 0; i < possMov.length; i++) {
+            if (isOutOfBounds(possMov[i]) || arrIsEqual(pos, possMov[i])) {
+                delete possMov[i];
+            }
+        }
+        return possMov;
+    }
 }
 class King extends chessPiece { }
 class Pawn extends chessPiece { }
