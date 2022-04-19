@@ -12,10 +12,10 @@ const cellPainter = {
     },
     cleanAllCells: () => {
         if (!cellPainter.paintedCells) { return }
-        cellPainter.paintedCells.forEach(p => {
+        for (const p of cellPainter.paintedCells) {
             getCell(p[0], p[1]).classList.remove(HIGHLIGHT_COLOR);
             getCell(p[0], p[1]).classList.remove(VALID_MOVES_COLOR);
-        })
+        }
         cellPainter.paintedCells = [];
     }
 }
