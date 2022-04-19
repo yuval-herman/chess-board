@@ -5,8 +5,8 @@ const cellPainter = {
     paintedCells: [],
     paintCells: (cellsPos, colorClass) => {
         if (!cellsPos) { return }
-        cellPainter.paintedCells.push(...cellsPos)
         cellsPos.forEach(p => {
+            cellPainter.paintedCells.push(p)
             getCell(p[0], p[1]).classList.add(colorClass);
         });
     },
