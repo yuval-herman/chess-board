@@ -32,6 +32,10 @@ function arrIsEqual(arr1, arr2) { //check if arrays are equal
     return true;
 }
 
+function isOutOfBounds(pos) {
+    return pos[0] >= BOARD_SIZE || pos[1] >= BOARD_SIZE || pos[0] < 0 || pos[1] < 0;
+}
+
 function makeTable() {
     let table = document.createElement('table');
 
