@@ -178,8 +178,27 @@ class Queen extends chessPiece {
         return possMov;
     }
 }
-class King extends chessPiece { }
-class Pawn extends chessPiece { }
+class King extends chessPiece {
+    //king movement is only more complicated then the pawn. basically, really simple
+    validMoves(pos) {
+        let possMov = [];
+        for (let i = -1; i < 2; i++) {
+            for (let j = -1; j < 2; j++) {
+                possMov.push([pos[0] + i, pos[1] + j]);
+            }
+        }
+        for (let i = 0; i < possMov.length; i++) {
+            if (isOutOfBounds(possMov[i]) || arrIsEqual(pos, possMov[i])) {
+                delete possMov[i];
+            }
+        }
+        return possMov;
+    }
+}
+
+class Pawn extends chessPiece {
+
+}
 
 const board = [
     [new Rook('rook', false, 'pieces/Chess_rdt45.svg'),
