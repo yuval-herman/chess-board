@@ -1,8 +1,36 @@
 const BOARD_SIZE = 8;
-const HIGHLIGHT_COLOR = '#fdff6f'
-const VALID_MOVES_COLOR = '#74d77a'
-var prevCell;
-var prevColor;
+const HIGHLIGHT_COLOR = 'highlight'
+const VALID_MOVES_COLOR = 'valid-move'
+const cellPainter = {
+    paintedCells: [],
+    paintCells: (cellsPos, colorClass) => {
+        if (!cellsPos) { return }
+        cellPainter.paintedCells.push(...cellsPos)
+        cellsPos.forEach(p => {
+            getCell(p[0], p[1]).classList.add(colorClass);
+        });
+    },
+    cleanAllCells: () => {
+        if (!cellPainter.paintedCells) { return }
+        cellPainter.paintedCells.forEach(p => {
+            getCell(p[0], p[1]).classList.remove(HIGHLIGHT_COLOR);
+            getCell(p[0], p[1]).classList.remove(VALID_MOVES_COLOR);
+        })
+        cellPainter.paintedCells = [];
+    }
+}
+
+function arrIsEqual(arr1, arr2) { //check if arrays are equal
+    if (arr1.length !== arr2.length) {
+        return false;
+    }
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false;
+        }
+    }
+    return true;
+}
 
 function makeTable() {
     let table = document.createElement('table');
@@ -15,7 +43,7 @@ function makeTable() {
 
         for (let j = 0; j < BOARD_SIZE; j++) {
             let td = document.createElement('td');
-            td.onclick = (e) => {cellClick(e, board)};
+            td.onclick = (e) => { cellClick(e, board) };
             row.appendChild(td);
         }
 
@@ -43,29 +71,19 @@ function populateTable() {
             if (element === undefined) {
                 continue;
             }
-            getCell(i,j).appendChild(makePiece(element.imgPath));
+            getCell(i, j).appendChild(makePiece(element.imgPath));
         }
     }
 }
 
 function cellClick(event) {
+    cellPainter.cleanAllCells();
     let cell = event.currentTarget;
-    if (prevCell !== undefined) {
-        prevCell.style.background = prevColor;
+    let pos = [cell.parentNode.rowIndex, cell.cellIndex]
+    cellPainter.paintCells([pos], HIGHLIGHT_COLOR)
+    if (cell.childElementCount > 0) {
+        cellPainter.paintCells(board[pos[0]][pos[1]].validMoves(pos), VALID_MOVES_COLOR);
     }
-    prevCell = cell;
-    prevColor = cell.style.background;
-    cell.style.background = HIGHLIGHT_COLOR;
-    if (cell.childElementCount > 0 ) {
-        let pos = [cell.parentNode.rowIndex, cell.cellIndex]
-        paintMoves(board[pos[0]][pos[1]].validMoves(pos));
-    }
-}
-
-function paintMoves(movArr) {
-    movArr.forEach(p => {
-        getCell(p[0], p[1]).style.background = VALID_MOVES_COLOR;
-    });
 }
 
 class chessPiece {
@@ -75,7 +93,7 @@ class chessPiece {
         this.imgPath = imgPath;
     }
 
-    validMoves(pos){}; //gets position and board array and returns an array of location the piece can move to
+    validMoves(pos) { }; //gets position and board array and returns an array of location the piece can move to
 }
 
 class Rook extends chessPiece {
@@ -85,11 +103,11 @@ class Rook extends chessPiece {
         let possMov = [];
         for (let i = 0; i < board.length; i++) {
             let m1 = [pos[0], i]; //first all of the current row
-            if (m1[0] !== pos[0] || m1[1] !== pos[1]) { //not current position
+            if (!arrIsEqual(m1, pos)) { //not current position
                 possMov.push(m1);
             }
             let m2 = [i, pos[1]]; //first all of the current row
-            if (m2[0] !== pos[0] || m2[1] !== pos[1]) { //not current position
+            if (!arrIsEqual(m2, pos)) { //not current position
                 possMov.push(m2);
             }
         }
@@ -141,17 +159,5 @@ const board = [
     new Rook('rook', true, 'pieces/Chess_rlt45.svg')]];
 
 let table = makeTable();
-
-let getCell = (x, y) => {
-    return table.rows[x].cells[y];
-}
-
-let makePiece = (path) => {
-    let img = document.createElement('img');
-    img.src = path;
-    img.className = "piece";
-    return img;
-}
-
 
 populateTable(board);
