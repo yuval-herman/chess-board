@@ -4,7 +4,7 @@ const VALID_MOVES_COLOR = '#74d77a'
 var prevCell;
 var prevColor;
 
-function makeTable(board) {
+function makeTable() {
     let table = document.createElement('table');
 
     table.className = "board"
@@ -25,18 +25,7 @@ function makeTable(board) {
     return table;
 }
 
-function populateTable(table, board) {
-    getCell = (x, y) => {
-        return table.rows[x].cells[y];
-    }
-
-    makePiece = (path) => {
-        let img = document.createElement('img');
-        img.src = path;
-        img.className = "piece";
-        return img;
-    }
-
+function populateTable() {
     for (let i = 0; i < board.length; i++) {
         for (let j = 0; j < board[i].length; j++) {
             const element = board[i][j];
@@ -48,7 +37,7 @@ function populateTable(table, board) {
     }
 }
 
-function cellClick(event, board) {
+function cellClick(event) {
     let cell = event.currentTarget;
     if (prevCell !== undefined) {
         prevCell.style.background = prevColor;
@@ -58,11 +47,11 @@ function cellClick(event, board) {
     cell.style.background = HIGHLIGHT_COLOR;
     if (cell.childElementCount > 0 ) {
         let pos = [cell.parentNode.rowIndex, cell.cellIndex]
-        paintMoves(board, board[pos[0]][pos[1]].validMoves(pos, board));
+        paintMoves(board[pos[0]][pos[1]].validMoves(pos));
     }
 }
 
-function paintMoves(board, movArr) {
+function paintMoves(movArr) {
     movArr.forEach(p => {
         getCell(p[0], p[1]).style.background = VALID_MOVES_COLOR;
     });
@@ -75,13 +64,13 @@ class chessPiece {
         this.imgPath = imgPath;
     }
 
-    validMoves(pos, board){}; //gets position and board array and returns an array of location the piece can move to
+    validMoves(pos){}; //gets position and board array and returns an array of location the piece can move to
 }
 
 class Rook extends chessPiece {
     //the rook can move in horizontal or vertical axes,
     //he can move as many spaces as possible before hitting a wall or another piece
-    validMoves(pos, board) {
+    validMoves(pos) {
         let possMov = [];
         for (let i = 0; i < board.length; i++) {
             let m1 = [pos[0], i]; //first all of the current row
@@ -140,6 +129,18 @@ const board = [
     new Knight('knight', true, 'pieces/Chess_nlt45.svg'),
     new Rook('rook', true, 'pieces/Chess_rlt45.svg')]];
 
-let table = makeTable(board);
+let table = makeTable();
 
-populateTable(table, board);
+let getCell = (x, y) => {
+    return table.rows[x].cells[y];
+}
+
+let makePiece = (path) => {
+    let img = document.createElement('img');
+    img.src = path;
+    img.className = "piece";
+    return img;
+}
+
+
+populateTable(board);
