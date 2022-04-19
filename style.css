@@ -3,6 +3,14 @@
     --dark: #3d3d3d;
 }
 
+.highlight {
+    background-color: #fdff6f !important;
+}
+
+.valid-move {
+    background-color: #74d77a !important;
+}
+
 .board {
     table-layout: fixed;
     width: 80vh;
