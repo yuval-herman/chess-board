@@ -1,6 +1,7 @@
 const BOARD_SIZE = 8;
 const HIGHLIGHT_COLOR = "highlight";
 const VALID_MOVES_COLOR = "valid-move";
+
 const cellPainter = {
   paintedCells: [],
   paintCells: (cellsPos, colorClass) => {
@@ -23,84 +24,6 @@ const cellPainter = {
     cellPainter.paintedCells = [];
   },
 };
-
-function arrIsEqual(arr1, arr2) {
-  //check if arrays are equal
-  if (arr1.length !== arr2.length) {
-    return false;
-  }
-  for (let i = 0; i < arr1.length; i++) {
-    if (arr1[i] !== arr2[i]) {
-      return false;
-    }
-  }
-  return true;
-}
-
-function isOutOfBounds(pos) {
-  return (
-    pos[0] >= BOARD_SIZE || pos[1] >= BOARD_SIZE || pos[0] < 0 || pos[1] < 0
-  );
-}
-
-function makeTable() {
-  let table = document.createElement("table");
-
-  table.className = "board";
-  document.getElementsByTagName("body")[0].appendChild(table);
-
-  for (let i = 0; i < BOARD_SIZE; i++) {
-    let row = document.createElement("tr");
-
-    for (let j = 0; j < BOARD_SIZE; j++) {
-      let td = document.createElement("td");
-      td.onclick = (e) => {
-        cellClick(e, board);
-      };
-      row.appendChild(td);
-    }
-
-    table.appendChild(row);
-  }
-
-  return table;
-}
-
-function getCell(x, y) {
-  return table.rows[x].cells[y];
-}
-
-function makePiece(path) {
-  let img = document.createElement("img");
-  img.src = path;
-  img.className = "piece";
-  return img;
-}
-
-function populateTable() {
-  for (let i = 0; i < board.length; i++) {
-    for (let j = 0; j < board[i].length; j++) {
-      const element = board[i][j];
-      if (element === undefined) {
-        continue;
-      }
-      getCell(i, j).appendChild(makePiece(element.imgPath));
-    }
-  }
-}
-
-function cellClick(event) {
-  cellPainter.cleanAllCells();
-  let cell = event.currentTarget;
-  let pos = [cell.parentNode.rowIndex, cell.cellIndex];
-  cellPainter.paintCells([pos], HIGHLIGHT_COLOR);
-  if (cell.childElementCount > 0) {
-    cellPainter.paintCells(
-      board[pos[0]][pos[1]].validMoves(pos),
-      VALID_MOVES_COLOR
-    );
-  }
-}
 
 class chessPiece {
   constructor(pieceName, type, imgPath) {
@@ -228,6 +151,84 @@ class Pawn extends chessPiece {
     }
     return possMov;
   }
+}
+
+function makeTable() {
+  let table = document.createElement("table");
+
+  table.className = "board";
+  document.getElementsByTagName("body")[0].appendChild(table);
+
+  for (let i = 0; i < BOARD_SIZE; i++) {
+    let row = document.createElement("tr");
+
+    for (let j = 0; j < BOARD_SIZE; j++) {
+      let td = document.createElement("td");
+      td.onclick = (e) => {
+        cellClick(e, board);
+      };
+      row.appendChild(td);
+    }
+
+    table.appendChild(row);
+  }
+
+  return table;
+}
+
+function populateTable() {
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board[i].length; j++) {
+      const element = board[i][j];
+      if (element === undefined) {
+        continue;
+      }
+      getCell(i, j).appendChild(makePiece(element.imgPath));
+    }
+  }
+}
+
+function cellClick(event) {
+  cellPainter.cleanAllCells();
+  let cell = event.currentTarget;
+  let pos = [cell.parentNode.rowIndex, cell.cellIndex];
+  cellPainter.paintCells([pos], HIGHLIGHT_COLOR);
+  if (cell.childElementCount > 0) {
+    cellPainter.paintCells(
+      board[pos[0]][pos[1]].validMoves(pos),
+      VALID_MOVES_COLOR
+    );
+  }
+}
+
+function arrIsEqual(arr1, arr2) {
+  //check if arrays are equal
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function isOutOfBounds(pos) {
+  return (
+    pos[0] >= BOARD_SIZE || pos[1] >= BOARD_SIZE || pos[0] < 0 || pos[1] < 0
+  );
+}
+
+function getCell(x, y) {
+  return table.rows[x].cells[y];
+}
+
+function makePiece(path) {
+  let img = document.createElement("img");
+  img.src = path;
+  img.className = "piece";
+  return img;
 }
 
 const board = [
