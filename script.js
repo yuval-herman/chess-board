@@ -112,6 +112,16 @@ class chessPiece {
   }
 
   validMoves(pos) {} //gets position and board array and returns an array of location the piece can move to
+
+  filterMoves(moves, pos) {
+    //filter impossible moves, and moves on current location
+    for (let i = 0; i < moves.length; i++) {
+      if (isOutOfBounds(moves[i]) || arrIsEqual(pos, moves[i])) {
+        delete moves[i];
+      }
+    }
+    return moves;
+  }
 }
 
 class Rook extends chessPiece {
@@ -120,18 +130,10 @@ class Rook extends chessPiece {
   validMoves(pos) {
     let possMov = [];
     for (let i = 0; i < board.length; i++) {
-      let m1 = [pos[0], i]; //first all of the current row
-      if (!arrIsEqual(m1, pos)) {
-        //not current position
-        possMov.push(m1);
-      }
-      let m2 = [i, pos[1]]; //first all of the current row
-      if (!arrIsEqual(m2, pos)) {
-        //not current position
-        possMov.push(m2);
-      }
+      possMov.push([pos[0], i]);
+      possMov.push([i, pos[1]]);
     }
-    return possMov;
+    return this.filterMoves(possMov, pos);
   }
 }
 class Knight extends chessPiece {
@@ -147,12 +149,7 @@ class Knight extends chessPiece {
     possMov.push([pos[0] - 1, pos[1] + 2]);
     possMov.push([pos[0] + 1, pos[1] - 2]);
     possMov.push([pos[0] - 1, pos[1] - 2]);
-    for (let i = 0; i < possMov.length; i++) {
-      if (isOutOfBounds(possMov[i])) {
-        delete possMov[i];
-      }
-    }
-    return possMov;
+    return this.filterMoves(possMov, pos);
   }
 }
 class Bishop extends chessPiece {
@@ -165,12 +162,7 @@ class Bishop extends chessPiece {
       possMov.push([pos[0] - i, pos[1] + i]);
       possMov.push([pos[0] + i, pos[1] - i]);
     }
-    for (let i = 0; i < possMov.length; i++) {
-      if (isOutOfBounds(possMov[i]) || arrIsEqual(pos, possMov[i])) {
-        delete possMov[i];
-      }
-    }
-    return possMov;
+    return this.filterMoves(possMov, pos);
   }
 }
 class Queen extends chessPiece {
@@ -186,12 +178,7 @@ class Queen extends chessPiece {
       possMov.push([pos[0], i]);
       possMov.push([i, pos[1]]);
     }
-    for (let i = 0; i < possMov.length; i++) {
-      if (isOutOfBounds(possMov[i]) || arrIsEqual(pos, possMov[i])) {
-        delete possMov[i];
-      }
-    }
-    return possMov;
+    return this.filterMoves(possMov, pos);
   }
 }
 class King extends chessPiece {
@@ -203,12 +190,7 @@ class King extends chessPiece {
         possMov.push([pos[0] + i, pos[1] + j]);
       }
     }
-    for (let i = 0; i < possMov.length; i++) {
-      if (isOutOfBounds(possMov[i]) || arrIsEqual(pos, possMov[i])) {
-        delete possMov[i];
-      }
-    }
-    return possMov;
+    return this.filterMoves(possMov, pos);
   }
 }
 
@@ -222,12 +204,7 @@ class Pawn extends chessPiece {
     } else {
       possMov.push([pos[0] + 1, pos[1]]);
     }
-    for (let i = 0; i < possMov.length; i++) {
-      if (isOutOfBounds(possMov[i]) || arrIsEqual(pos, possMov[i])) {
-        delete possMov[i];
-      }
-    }
-    return possMov;
+    return this.filterMoves(possMov, pos);
   }
 }
 
