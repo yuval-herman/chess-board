@@ -30,10 +30,77 @@ class CellPainter {
 }
 
 class Board {
-  constructor(boardArr) {
+  constructor(boardArr, HTMLtable) {
     this.boardArr = boardArr;
+    this.length = boardArr.length;
+    this.painter = new CellPainter();
+    this.makeTable();
   }
-  
+
+  getCell(x, y) {
+    return this.HTMLtable.rows[x].cells[y];
+  }
+
+  makePieceElement(imgPath) {
+    let img = document.createElement("img");
+    img.src = imgPath;
+    img.className = "piece";
+    return img;
+  }
+
+  makeTable() {
+    this.HTMLtable = document.createElement("table");
+
+    this.HTMLtable.className = "board";
+    document.getElementsByTagName("body")[0].appendChild(this.HTMLtable);
+
+    for (let i = 0; i < BOARD_SIZE; i++) {
+      let row = document.createElement("tr");
+
+      for (let j = 0; j < BOARD_SIZE; j++) {
+        let td = document.createElement("td");
+        td.onclick = (e) => {
+          this.cellClick(e, board);
+        };
+        row.appendChild(td);
+      }
+
+      this.HTMLtable.appendChild(row);
+    }
+  }
+
+  populateTable() {
+    for (let i = 0; i < this.boardArr.length; i++) {
+      for (let j = 0; j < this.boardArr[i].length; j++) {
+        const element = this.boardArr[i][j];
+        if (element === undefined) {
+          continue;
+        }
+        this.getCell(i, j).appendChild(this.makePieceElement(element.imgPath));
+      }
+    }
+  }
+
+  cellClick(event) {
+    this.painter.cleanAllCells();
+    let cell = event.currentTarget;
+    let pos = [cell.parentNode.rowIndex, cell.cellIndex];
+    this.painter.paintCells([this.getCell(pos[0], pos[1])], HIGHLIGHT_COLOR);
+    if (cell.childElementCount > 0) {
+      this.painter.paintCells(
+        this.positionsToCells(this.boardArr[pos[0]][pos[1]].validMoves(pos)),
+        VALID_MOVES_COLOR
+      );
+    }
+  }
+
+  positionsToCells(positions) {
+    let cells = [];
+    positions.forEach((pos) => {
+      cells.push(this.getCell(pos[0], pos[1]));
+    });
+    return cells;
+  }
 }
 
 class chessPiece {
@@ -164,54 +231,6 @@ class Pawn extends chessPiece {
   }
 }
 
-function makeTable() {
-  let table = document.createElement("table");
-
-  table.className = "board";
-  document.getElementsByTagName("body")[0].appendChild(table);
-
-  for (let i = 0; i < BOARD_SIZE; i++) {
-    let row = document.createElement("tr");
-
-    for (let j = 0; j < BOARD_SIZE; j++) {
-      let td = document.createElement("td");
-      td.onclick = (e) => {
-        cellClick(e, board);
-      };
-      row.appendChild(td);
-    }
-
-    table.appendChild(row);
-  }
-
-  return table;
-}
-
-function populateTable() {
-  for (let i = 0; i < board.length; i++) {
-    for (let j = 0; j < board[i].length; j++) {
-      const element = board[i][j];
-      if (element === undefined) {
-        continue;
-      }
-      getCell(i, j).appendChild(makePiece(element.imgPath));
-    }
-  }
-}
-
-function cellClick(event) {
-  cellPainter.cleanAllCells();
-  let cell = event.currentTarget;
-  let pos = [cell.parentNode.rowIndex, cell.cellIndex];
-  cellPainter.paintCells([pos], HIGHLIGHT_COLOR);
-  if (cell.childElementCount > 0) {
-    cellPainter.paintCells(
-      board[pos[0]][pos[1]].validMoves(pos),
-      VALID_MOVES_COLOR
-    );
-  }
-}
-
 function arrIsEqual(arr1, arr2) {
   //check if arrays are equal
   if (arr1.length !== arr2.length) {
@@ -231,18 +250,7 @@ function isOutOfBounds(pos) {
   );
 }
 
-function getCell(x, y) {
-  return table.rows[x].cells[y];
-}
-
-function makePiece(path) {
-  let img = document.createElement("img");
-  img.src = path;
-  img.className = "piece";
-  return img;
-}
-
-const board = [
+const board = new Board([
   [
     new Rook("rook", false, "pieces/Chess_rdt45.svg"),
     new Knight("knight", false, "pieces/Chess_ndt45.svg"),
@@ -323,8 +331,7 @@ const board = [
     new Knight("knight", true, "pieces/Chess_nlt45.svg"),
     new Rook("rook", true, "pieces/Chess_rlt45.svg"),
   ],
-];
+]);
 
 const cellPainter = new CellPainter();
-let table = makeTable();
-populateTable();
+board.populateTable();
