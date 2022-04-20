@@ -227,78 +227,38 @@ function isOutOfBounds(pos) {
   );
 }
 
-const board = new Board([
-  [
-    new Rook("rook", false, "pieces/Chess_rdt45.svg"),
-    new Knight("knight", false, "pieces/Chess_ndt45.svg"),
-    new Bishop("bishop", false, "pieces/Chess_bdt45.svg"),
-    new Queen("queen", false, "pieces/Chess_qdt45.svg"),
-    new King("king", false, "pieces/Chess_kdt45.svg"),
-    new Bishop("bishop", false, "pieces/Chess_bdt45.svg"),
-    new Knight("knight", false, "pieces/Chess_ndt45.svg"),
-    new Rook("rook", false, "pieces/Chess_rdt45.svg"),
-  ],
-  [
-    new Pawn("pawn", false, "pieces/Chess_pdt45.svg"),
-    new Pawn("pawn", false, "pieces/Chess_pdt45.svg"),
-    new Pawn("pawn", false, "pieces/Chess_pdt45.svg"),
-    new Pawn("pawn", false, "pieces/Chess_pdt45.svg"),
-    new Pawn("pawn", false, "pieces/Chess_pdt45.svg"),
-    new Pawn("pawn", false, "pieces/Chess_pdt45.svg"),
-    new Pawn("pawn", false, "pieces/Chess_pdt45.svg"),
-    new Pawn("pawn", false, "pieces/Chess_pdt45.svg"),
-  ],
-  [
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-  ],
-  [
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-  ],
-  [
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-  ],
-  [
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-  ],
-  [
-    new Pawn("pawn", true, "pieces/Chess_plt45.svg"),
-    new Pawn("pawn", true, "pieces/Chess_plt45.svg"),
-    new Pawn("pawn", true, "pieces/Chess_plt45.svg"),
-    new Pawn("pawn", true, "pieces/Chess_plt45.svg"),
-    new Pawn("pawn", true, "pieces/Chess_plt45.svg"),
-    new Pawn("pawn", true, "pieces/Chess_plt45.svg"),
-    new Pawn("pawn", true, "pieces/Chess_plt45.svg"),
-    new Pawn("pawn", true, "pieces/Chess_plt45.svg"),
-  ],
-  [
+function makeBoardArray() {
+  let arr = [
+    [
+      new Rook("rook", false, "pieces/Chess_rdt45.svg"),
+      new Knight("knight", false, "pieces/Chess_ndt45.svg"),
+      new Bishop("bishop", false, "pieces/Chess_bdt45.svg"),
+      new Queen("queen", false, "pieces/Chess_qdt45.svg"),
+      new King("king", false, "pieces/Chess_kdt45.svg"),
+      new Bishop("bishop", false, "pieces/Chess_bdt45.svg"),
+      new Knight("knight", false, "pieces/Chess_ndt45.svg"),
+      new Rook("rook", false, "pieces/Chess_rdt45.svg"),
+    ],
+    [],
+  ];
+
+  for (let i = 0; i < BOARD_SIZE; i++) {
+    arr[1].push(new Pawn("pawn", false, "pieces/Chess_pdt45.svg"));
+  }
+
+  for (let i = 0; i < 4; i++) {
+    arr.push([]);
+    for (let j = 0; j < BOARD_SIZE; j++) {
+      arr[i].push(undefined);
+    }
+  }
+
+  arr.push([]);
+
+  for (let i = 0; i < BOARD_SIZE; i++) {
+    arr[6].push(new Pawn("pawn", true, "pieces/Chess_plt45.svg"));
+  }
+  arr.push([
     new Rook("rook", true, "pieces/Chess_rlt45.svg"),
     new Knight("knight", true, "pieces/Chess_nlt45.svg"),
     new Bishop("bishop", true, "pieces/Chess_blt45.svg"),
@@ -307,8 +267,11 @@ const board = new Board([
     new Bishop("bishop", true, "pieces/Chess_blt45.svg"),
     new Knight("knight", true, "pieces/Chess_nlt45.svg"),
     new Rook("rook", true, "pieces/Chess_rlt45.svg"),
-  ],
-]);
+  ]);
+  return arr;
+}
+
+const board = new Board(makeBoardArray());
 
 const cellPainter = new CellPainter();
 board.populateTable();
