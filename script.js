@@ -29,6 +29,13 @@ class CellPainter {
   }
 }
 
+class Board {
+  constructor(boardArr) {
+    this.boardArr = boardArr;
+  }
+  
+}
+
 class chessPiece {
   constructor(pieceName, type, imgPath) {
     //type is boolean, dark is false white is true
@@ -318,7 +325,6 @@ const board = [
   ],
 ];
 
-const cellPainter = new CellPainter()
+const cellPainter = new CellPainter();
 let table = makeTable();
-
-populateTable(board);
+populateTable();
