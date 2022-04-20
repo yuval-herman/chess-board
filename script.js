@@ -2,28 +2,32 @@ const BOARD_SIZE = 8;
 const HIGHLIGHT_COLOR = "highlight";
 const VALID_MOVES_COLOR = "valid-move";
 
-const cellPainter = {
-  paintedCells: [],
-  paintCells: (cellsPos, colorClass) => {
+class CellPainter {
+  constructor() {
+    this.paintedCells = [];
+  }
+
+  paintCells(cellsPos, colorClass) {
     if (!cellsPos) {
       return;
     }
     cellsPos.forEach((p) => {
-      cellPainter.paintedCells.push(p);
+      this.paintedCells.push(p);
       getCell(p[0], p[1]).classList.add(colorClass);
     });
-  },
-  cleanAllCells: () => {
-    if (!cellPainter.paintedCells) {
+  }
+
+  cleanAllCells() {
+    if (!this.paintedCells) {
       return;
     }
-    for (const p of cellPainter.paintedCells) {
+    for (const p of this.paintedCells) {
       getCell(p[0], p[1]).classList.remove(HIGHLIGHT_COLOR);
       getCell(p[0], p[1]).classList.remove(VALID_MOVES_COLOR);
     }
-    cellPainter.paintedCells = [];
-  },
-};
+    this.paintedCells = [];
+  }
+}
 
 class chessPiece {
   constructor(pieceName, type, imgPath) {
@@ -314,6 +318,7 @@ const board = [
   ],
 ];
 
+const cellPainter = new CellPainter()
 let table = makeTable();
 
 populateTable(board);
