@@ -7,13 +7,13 @@ class CellPainter {
     this.paintedCells = [];
   }
 
-  paintCells(cellsPos, colorClass) {
-    if (!cellsPos) {
+  paintCells(cells, colorClass) {
+    if (!cells) {
       return;
     }
-    cellsPos.forEach((p) => {
-      this.paintedCells.push(p);
-      getCell(p[0], p[1]).classList.add(colorClass);
+    cells.forEach((cell) => {
+      this.paintedCells.push(cell);
+      cell.classList.add(colorClass);
     });
   }
 
@@ -21,9 +21,9 @@ class CellPainter {
     if (!this.paintedCells) {
       return;
     }
-    for (const p of this.paintedCells) {
-      getCell(p[0], p[1]).classList.remove(HIGHLIGHT_COLOR);
-      getCell(p[0], p[1]).classList.remove(VALID_MOVES_COLOR);
+    for (const cell of this.paintedCells) {
+      cell.classList.remove(HIGHLIGHT_COLOR);
+      cell.classList.remove(VALID_MOVES_COLOR);
     }
     this.paintedCells = [];
   }
